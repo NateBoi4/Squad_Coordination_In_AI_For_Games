@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum UnitType { NONE, HUNTER, GUARD, CAPTAIN, SUPPORT }
 
@@ -48,41 +49,56 @@ public class Unit : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (Physics.CheckSphere(transform.position, radius, 3))
+        LayerMask mask = LayerMask.GetMask("Ground");
+        if (Physics.CheckSphere(transform.position, radius, mask))
         {
-            Debug.Log("Hit");
-            switch (collision.gameObject.tag)
+            if (collision.gameObject.layer == mask)
             {
-                case "Tundra":
-                    confidence.DecreaseCon(0.2f);
-                    break;
-                case "City":
-                    confidence.IncreaseCon(0.3f);
-                    break;
-                case "Desert":
-                    confidence.DecreaseCon(0.1f);
-                    break;
-                case "Forest":
-                    confidence.IncreaseCon(0.2f);
-                    break;
-                case "Swamp":
-                    confidence.DecreaseCon(0.3f);
-                    break;
-                case "Canyon":
-                    confidence.IncreaseCon(0.4f);
-                    break;
-                case "Beach":
-                    confidence.IncreaseCon(0.1f);
-                    break;
-                case "Lake":
-                    confidence.DecreaseCon(0.4f);
-                    break;
-                case "Hills":
-                    confidence.IncreaseCon(0.25f);
-                    break;
-                default:
-                    break;
+                Debug.Log("Hit");
+                switch (collision.gameObject.tag)
+                {
+                    case "Tundra":
+                        confidence.DecreaseCon(0.2f);
+                        break;
+                    case "City":
+                        confidence.IncreaseCon(0.3f);
+                        break;
+                    case "Desert":
+                        confidence.DecreaseCon(0.1f);
+                        break;
+                    case "Forest":
+                        confidence.IncreaseCon(0.2f);
+                        break;
+                    case "Swamp":
+                        confidence.DecreaseCon(0.3f);
+                        break;
+                    case "Canyon":
+                        confidence.IncreaseCon(0.4f);
+                        break;
+                    case "Beach":
+                        confidence.IncreaseCon(0.1f);
+                        break;
+                    case "Lake":
+                        confidence.DecreaseCon(0.4f);
+                        break;
+                    case "Hills":
+                        confidence.IncreaseCon(0.25f);
+                        break;
+                    default:
+                        break;
+                }
+                SetDestination(collision.transform.position);
             }
+        }
+    }
+
+    private void SetDestination(Vector3 destination)
+    {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+
+        if (agent)
+        {
+            agent.destination = destination;
         }
     }
 }

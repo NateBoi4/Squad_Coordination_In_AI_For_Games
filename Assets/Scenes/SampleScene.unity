@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 8a9564808f3488f4288e1781cfab7e93, type: 2}
 --- !u!1 &81432186
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +179,7 @@ GameObject:
   m_TagString: Lake
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &182837308
 Transform:
@@ -275,7 +275,7 @@ GameObject:
   m_TagString: Hills
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &275719970
 Transform:
@@ -371,7 +371,7 @@ GameObject:
   m_TagString: Forest
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &350406209
 Transform:
@@ -563,7 +563,7 @@ GameObject:
   m_TagString: Tundra
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &417322460
 Transform:
@@ -848,7 +848,7 @@ GameObject:
   m_TagString: Canyon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &769551750
 Transform:
@@ -944,7 +944,7 @@ GameObject:
   m_TagString: Beach
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &853222655
 Transform:
@@ -1153,7 +1153,7 @@ GameObject:
   m_TagString: Swamp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1063300129
 Transform:
@@ -1309,7 +1309,7 @@ GameObject:
   m_TagString: Desert
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1186126716
 Transform:
@@ -1550,12 +1550,19 @@ MonoBehaviour:
   unit: {fileID: 8473852938957782494, guid: 345ff8e82f27f214b843b5e857f72c4e, type: 3}
   squads: []
   numSquads: 4
+  numUnits: 0
   unitLocations:
   - {fileID: 1147005439}
   - {fileID: 963215290}
   - {fileID: 1116814513}
   - {fileID: 2113967028}
   start: 0
+  unitTypeCon:
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1
+  unitTypes: 04000000020000000100000003000000
 --- !u!4 &1893108393
 Transform:
   m_ObjectHideFlags: 0
@@ -1717,7 +1724,7 @@ GameObject:
   m_TagString: City
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2140353139
 Transform:
