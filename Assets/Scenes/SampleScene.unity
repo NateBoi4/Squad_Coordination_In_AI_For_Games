@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 81432187}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Surfaces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 182837311}
   - component: {fileID: 182837310}
   - component: {fileID: 182837309}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Lake
   m_TagString: Lake
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 275719973}
   - component: {fileID: 275719972}
   - component: {fileID: 275719971}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Hills
   m_TagString: Hills
   m_Icon: {fileID: 0}
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 350406212}
   - component: {fileID: 350406211}
   - component: {fileID: 350406210}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Forest
   m_TagString: Forest
   m_Icon: {fileID: 0}
@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 417322463}
   - component: {fileID: 417322462}
   - component: {fileID: 417322461}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Tundra
   m_TagString: Tundra
   m_Icon: {fileID: 0}
@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 769551753}
   - component: {fileID: 769551752}
   - component: {fileID: 769551751}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Canyon
   m_TagString: Canyon
   m_Icon: {fileID: 0}
@@ -939,7 +939,7 @@ GameObject:
   - component: {fileID: 853222658}
   - component: {fileID: 853222657}
   - component: {fileID: 853222656}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Beach
   m_TagString: Beach
   m_Icon: {fileID: 0}
@@ -1148,7 +1148,7 @@ GameObject:
   - component: {fileID: 1063300132}
   - component: {fileID: 1063300131}
   - component: {fileID: 1063300130}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Swamp
   m_TagString: Swamp
   m_Icon: {fileID: 0}
@@ -1304,7 +1304,7 @@ GameObject:
   - component: {fileID: 1186126719}
   - component: {fileID: 1186126718}
   - component: {fileID: 1186126717}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: Desert
   m_TagString: Desert
   m_Icon: {fileID: 0}
@@ -1563,6 +1563,16 @@ MonoBehaviour:
   - 0.75
   - 1
   unitTypes: 04000000020000000100000003000000
+  terrains:
+  - Tundra
+  - City
+  - Desert
+  - Forest
+  - Swamp
+  - Canyon
+  - Beach
+  - Lake
+  - Hills
 --- !u!4 &1893108393
 Transform:
   m_ObjectHideFlags: 0
@@ -1571,7 +1581,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893108391}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1147005439}
@@ -1719,7 +1729,7 @@ GameObject:
   - component: {fileID: 2140353142}
   - component: {fileID: 2140353141}
   - component: {fileID: 2140353140}
-  m_Layer: 3
+  m_Layer: 8
   m_Name: City
   m_TagString: City
   m_Icon: {fileID: 0}

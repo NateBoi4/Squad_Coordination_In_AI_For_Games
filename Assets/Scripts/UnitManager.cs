@@ -6,6 +6,7 @@ using UnityEngine;
 public struct squad
 {
     public string squadName;
+    public string favoredTerrain;
     public GameObject[] squadMembers;
 }
 
@@ -24,6 +25,7 @@ public class UnitManager : MonoBehaviour
 
     public float[] unitTypeCon;
     public UnitType[] unitTypes;
+    public string[] terrains;
 
     private void Start()
     {
@@ -50,13 +52,15 @@ public class UnitManager : MonoBehaviour
             GameObject[] newSquad = new GameObject[4];
             for(int j = 0; j < 4; j++)
             {
-                newSquad[j] = Instantiate(unit, unitLocations[i]);
-                newSquad[j].transform.Translate(new Vector3(i, 0.0f, j));
+                Vector2 randPos = Random.insideUnitCircle;
+                Vector3 spawnPos = unitLocations[i].position + new Vector3(randPos.x, 0.0f, randPos.y);
+                newSquad[j] = Instantiate(unit, spawnPos, Quaternion.identity, unitLocations[i]);
                 newSquad[j].GetComponent<Unit>().SetTeam(i + 1);
                 newSquad[j].GetComponent<Unit>().SetUnitType(unitTypes[j]);
                 newSquad[j].GetComponent<Confidence>().SetConfidence(unitTypeCon[j]);
             }
             squads[i].squadName = "Squad " + (i + 1).ToString();
+            squads[i].favoredTerrain = terrains[i];
             squads[i].squadMembers = newSquad;
         }
     }
