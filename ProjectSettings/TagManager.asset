@@ -13,6 +13,7 @@ TagManager:
   - Beach
   - Hills
   - Canyon
+  - Unit
   layers:
   - Default
   - TransparentFX

@@ -15,12 +15,27 @@ public class Unit : MonoBehaviour
     private int team;
     [SerializeField]
     private Transform currentTerrain;
+    [SerializeField]
+    private GameObject currentTarget;
+    [SerializeField]
+    private bool leader;
+    [SerializeField]
+    private GameObject leadUnit;
+    [SerializeField]
+    private Transform dest;
+    [SerializeField]
+    private bool moving;
+    [SerializeField]
+    private float aggro;
+    [SerializeField]
+    private Vector3 forwardLine;
 
     private Confidence confidence;
 
     public void SetUnitType(UnitType _type) { type = _type; }
 
     public void SetTeam(int _team) { team = _team; }
+    public int GetTeam() { return team; }
 
     private void Start()
     {
@@ -45,6 +60,47 @@ public class Unit : MonoBehaviour
         currentTerrain = CheckTerrain();
         if(currentTerrain)
             SetTerrainConfidence(currentTerrain);
+        if (type == UnitType.CAPTAIN)
+        {
+            SetLeader(3);
+        }
+        else
+        {
+            foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
+            {
+                if (unit)
+                {
+                    Unit _unit = unit.GetComponent<Unit>();
+                    if (_unit)
+                    {
+                        if (_unit.GetTeam() == team)
+                        {
+                            if (_unit.type == UnitType.CAPTAIN)
+                            {
+                                leadUnit = unit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private Vector3 GetMeanVector(List<Vector3> positions)
+    {
+        if (positions.Count == 0)
+        {
+            return Vector3.zero;
+        }
+
+        Vector3 meanVector = Vector3.zero;
+
+        foreach (Vector3 pos in positions)
+        {
+            meanVector += pos;
+        }
+
+        return (meanVector / positions.Count);
     }
 
     private void Update()
@@ -52,7 +108,7 @@ public class Unit : MonoBehaviour
         Transform newTerrian = CheckTerrain();
         if (newTerrian != currentTerrain)
         {
-            Debug.Log("Diff");
+            //Debug.Log("Diff");
             if (newTerrian)
             {
                 SetTerrainConfidence(newTerrian);
@@ -61,9 +117,80 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            Debug.Log("Same");
-            Vector3 newPos = RandomNavSphere(transform.position, radius, -1);
-            SetDestination(newPos);
+            //Debug.Log("Same");
+            if (leader)
+            {
+                if (!moving)
+                {
+                    StartCoroutine(Wander());
+                    moving = true;
+                }
+                //List<Vector3> positions = new List<Vector3>();
+                //foreach(Transform t in transform.parent.GetComponentsInChildren<Transform>())
+                //{
+                //    positions.Add(t.position);
+                //}
+                //forwardLine = GetMeanVector(positions) + transform.forward;
+                //Debug.DrawLine(transform.position, forwardLine);
+            }
+            else
+            {
+                switch (type)
+                {
+                    case UnitType.HUNTER:
+                        dest = leadUnit.transform.GetChild(0);
+                        break;
+                    case UnitType.GUARD:
+                        dest = leadUnit.transform.GetChild(1);
+                        break;
+                    case UnitType.SUPPORT:
+                        dest = leadUnit.transform.GetChild(2);
+                        break;
+                    default:
+                        break;
+                }
+                SetDestination(dest.position);
+            }
+        }
+        CheckEnemies();
+    }
+
+    private void CheckEnemies()
+    {
+        foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
+        {
+            if (unit)
+            {
+                Unit _unit = unit.GetComponent<Unit>();
+                if (_unit)
+                {
+                    if (_unit.GetTeam() != team)
+                    {
+                        if (Vector3.Distance(unit.transform.position, transform.position) < aggro)
+                        {
+                            Debug.Log("Target Found");
+                            currentTarget = unit;
+                            StopAllCoroutines();
+                            //GET THE FORWARD LINE FROM GDC AND PUT IT HERE
+                            //SetDestination(currentTarget.transform.position + currentTarget.transform.forward);
+                            //Debug.DrawLine(transform.position, currentTarget.transform.position + currentTarget.transform.forward);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void SetLeader(int unitNum)
+    {
+        leader = true;
+        for (int i = 0; i < unitNum; i++)
+        {
+            GameObject pos = new GameObject();
+            pos.transform.parent = transform;
+            pos.transform.localPosition = Vector3.zero;
+            pos.transform.Translate(new Vector3(i, 0.0f, Mathf.Pow(-1.0f, i)));
+            pos.name = "Tracking Location: " + (i + 1);
         }
     }
 
@@ -117,6 +244,16 @@ public class Unit : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+
+    private IEnumerator Wander()
+    {
+        while (leader)
+        {
+            Vector3 newPos = RandomNavSphere(transform.position, radius, -1);
+            SetDestination(newPos);
+            yield return new WaitForSeconds(3.0f);
         }
     }
 

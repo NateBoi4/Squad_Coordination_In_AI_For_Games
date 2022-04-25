@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -5822178787183805511}
   m_Layer: 0
   m_Name: Unit
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,13 @@ MonoBehaviour:
   type: 0
   radius: 3
   team: 0
+  currentTerrain: {fileID: 0}
+  currentTarget: {fileID: 0}
+  leader: 0
+  leadUnit: {fileID: 0}
+  dest: {fileID: 0}
+  moving: 0
+  aggro: 10
 --- !u!195 &-7643966190519572484
 NavMeshAgent:
   m_ObjectHideFlags: 0

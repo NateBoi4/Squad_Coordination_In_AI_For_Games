@@ -57,6 +57,7 @@ public class UnitManager : MonoBehaviour
                 newSquad[j] = Instantiate(unit, spawnPos, Quaternion.identity, unitLocations[i]);
                 newSquad[j].GetComponent<Unit>().SetTeam(i + 1);
                 newSquad[j].GetComponent<Unit>().SetUnitType(unitTypes[j]);
+                newSquad[j].name = unitTypes[j].ToString();
                 newSquad[j].GetComponent<Confidence>().SetConfidence(unitTypeCon[j]);
             }
             squads[i].squadName = "Squad " + (i + 1).ToString();
