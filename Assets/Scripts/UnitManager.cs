@@ -44,13 +44,13 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    private void SpawnSquads()
+    public void SpawnSquads()
     {
         squads = new squad[numSquads];
         for(int i = 0; i < numSquads; i++)
         {
-            GameObject[] newSquad = new GameObject[4];
-            for(int j = 0; j < 4; j++)
+            GameObject[] newSquad = new GameObject[numUnits];
+            for(int j = 0; j < numUnits; j++)
             {
                 Vector2 randPos = Random.insideUnitCircle;
                 Vector3 spawnPos = unitLocations[i].position + new Vector3(randPos.x, 0.0f, randPos.y);

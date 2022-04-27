@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum UnitType { NONE, HUNTER, GUARD, CAPTAIN, SUPPORT }
+public enum UnitType { NONE, HUNTER, GUARD, CAPTAIN, SUPPORT, TANK, SNIPER }
 
 public class Unit : MonoBehaviour
 {
@@ -32,6 +32,8 @@ public class Unit : MonoBehaviour
 
     private Confidence confidence;
 
+    public UnitManager manager;
+
     public void SetUnitType(UnitType _type) { type = _type; }
 
     public void SetTeam(int _team) { team = _team; }
@@ -39,6 +41,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        manager = GameObject.FindGameObjectWithTag("GameController").GetComponent<UnitManager>();
         confidence = GetComponent<Confidence>();
         switch (team) 
         {
@@ -54,6 +57,12 @@ public class Unit : MonoBehaviour
             case 4:
                 GetComponent<MeshRenderer>().material.SetColor("_Color", Color.yellow);
                 break;
+            case 5:
+                GetComponent<MeshRenderer>().material.SetColor("_Color", Color.magenta);
+                break;
+            case 6:
+                GetComponent<MeshRenderer>().material.SetColor("_Color", Color.cyan);
+                break;
             default:
                 break;
         }
@@ -62,7 +71,7 @@ public class Unit : MonoBehaviour
             SetTerrainConfidence(currentTerrain);
         if (type == UnitType.CAPTAIN)
         {
-            SetLeader(3);
+            SetLeader(manager.numUnits);
         }
         else
         {
@@ -145,6 +154,12 @@ public class Unit : MonoBehaviour
                         break;
                     case UnitType.SUPPORT:
                         dest = leadUnit.transform.GetChild(2);
+                        break;
+                    case UnitType.SNIPER:
+                        dest = leadUnit.transform.GetChild(3);
+                        break;
+                    case UnitType.TANK:
+                        dest = leadUnit.transform.GetChild(4);
                         break;
                     default:
                         break;
