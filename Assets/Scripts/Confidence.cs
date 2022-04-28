@@ -8,6 +8,7 @@ public class Confidence : MonoBehaviour
     private float confidence; //Level of confidence between 0.0 and 1.0
 
     public void SetConfidence(float _confidence) { confidence = _confidence; }
+    public float GetConfidence() { return confidence; }
 
     private void Update()
     {

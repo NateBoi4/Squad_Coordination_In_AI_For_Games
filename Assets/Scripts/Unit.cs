@@ -29,6 +29,8 @@ public class Unit : MonoBehaviour
     private float aggro;
     [SerializeField]
     private Vector3 forwardLine;
+    [SerializeField]
+    private float averageConfidence;
 
     private Confidence confidence;
 
@@ -134,12 +136,20 @@ public class Unit : MonoBehaviour
                     StartCoroutine(Wander());
                     moving = true;
                 }
+
+                foreach (Transform t in transform.parent.GetComponentInChildren<Transform>())
+                {
+                    averageConfidence += t.gameObject.GetComponent<Confidence>().GetConfidence();
+                }
+                averageConfidence /= manager.numUnits;
+
                 //List<Vector3> positions = new List<Vector3>();
-                //foreach(Transform t in transform.parent.GetComponentsInChildren<Transform>())
+                //foreach (Transform t in transform.parent.GetComponentsInChildren<Transform>())
                 //{
                 //    positions.Add(t.position);
                 //}
-                //forwardLine = GetMeanVector(positions) + transform.forward;
+                //forwardLine = GetMeanVector(positions);
+                //forwardLine = transform.position - forwardLine.normalized * 2.0f;
                 //Debug.DrawLine(transform.position, forwardLine);
             }
             else
@@ -183,7 +193,7 @@ public class Unit : MonoBehaviour
                     {
                         if (Vector3.Distance(unit.transform.position, transform.position) < aggro)
                         {
-                            Debug.Log("Target Found");
+                            //Debug.Log("Target Found");
                             currentTarget = unit;
                             StopAllCoroutines();
                             //GET THE FORWARD LINE FROM GDC AND PUT IT HERE
@@ -204,7 +214,7 @@ public class Unit : MonoBehaviour
             GameObject pos = new GameObject();
             pos.transform.parent = transform;
             pos.transform.localPosition = Vector3.zero;
-            pos.transform.Translate(new Vector3(i, 0.0f, Mathf.Pow(-1.0f, i)));
+            pos.transform.Translate(new Vector3(-i, 0.0f, -(Mathf.Pow(-1.0f, i))));
             pos.name = "Tracking Location: " + (i + 1);
         }
     }
