@@ -5,6 +5,14 @@ using UnityEngine.AI;
 
 public enum UnitType { NONE, HUNTER, GUARD, CAPTAIN, SUPPORT, TANK, SNIPER }
 
+public struct ForwardLine
+{
+    public Vector3 combatDir;
+    public float width;
+    public Rect neutralArea;
+    public Rect enemyArea;
+}
+
 public class Unit : MonoBehaviour
 {
     [SerializeField]
@@ -28,9 +36,11 @@ public class Unit : MonoBehaviour
     [SerializeField]
     private float aggro;
     [SerializeField]
-    private Vector3 forwardLine;
+    private ForwardLine forwardLine;
     [SerializeField]
     private float averageConfidence;
+    [SerializeField]
+    private int unitCount;
 
     private Confidence confidence;
 
@@ -73,7 +83,8 @@ public class Unit : MonoBehaviour
             SetTerrainConfidence(currentTerrain);
         if (type == UnitType.CAPTAIN)
         {
-            SetLeader(manager.numUnits);
+            unitCount = manager.numUnits;
+            SetLeader(unitCount);
         }
         else
         {
@@ -136,21 +147,11 @@ public class Unit : MonoBehaviour
                     StartCoroutine(Wander());
                     moving = true;
                 }
-
                 foreach (Transform t in transform.parent.GetComponentInChildren<Transform>())
                 {
                     averageConfidence += t.gameObject.GetComponent<Confidence>().GetConfidence();
                 }
                 averageConfidence /= manager.numUnits;
-
-                //List<Vector3> positions = new List<Vector3>();
-                //foreach (Transform t in transform.parent.GetComponentsInChildren<Transform>())
-                //{
-                //    positions.Add(t.position);
-                //}
-                //forwardLine = GetMeanVector(positions);
-                //forwardLine = transform.position - forwardLine.normalized * 2.0f;
-                //Debug.DrawLine(transform.position, forwardLine);
             }
             else
             {
@@ -196,14 +197,93 @@ public class Unit : MonoBehaviour
                             //Debug.Log("Target Found");
                             currentTarget = unit;
                             StopAllCoroutines();
-                            //GET THE FORWARD LINE FROM GDC AND PUT IT HERE
-                            //SetDestination(currentTarget.transform.position + currentTarget.transform.forward);
-                            //Debug.DrawLine(transform.position, currentTarget.transform.position + currentTarget.transform.forward);
+                            if (leader) 
+                            {
+                                transform.LookAt(currentTarget.GetComponent<Unit>().leadUnit.transform);
+                                CalculateCombatDirection();
+                                forwardLine.width = 6;
+                                //forwardLine.neutralArea = new Rect(transform.position.x, transform.position.z - forwardLine.width,
+                                //    forwardLine.width, forwardLine.combatDir.magnitude);
+                                AdjustCondfidence();
+                                DetermineAction();
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    private void AdjustCondfidence()
+    {
+        int enemyUnits = currentTarget.GetComponent<Unit>().leadUnit.GetComponent<Unit>().unitCount;
+        int diff = unitCount - enemyUnits;
+        switch (diff)
+        {
+            case 0:
+                break;
+            case 1:
+                averageConfidence -= 0.1f;
+                break;
+            case 2:
+                averageConfidence -= 0.2f;
+                break;
+            case 3:
+                averageConfidence -= 0.3f;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void DetermineAction()
+    {
+        float enemyConfidence = currentTarget.GetComponent<Unit>().leadUnit.gameObject.GetComponent<Unit>().averageConfidence;
+        if(averageConfidence < (enemyConfidence - enemyConfidence * 0.5))
+        {
+            Retreat();
+        }
+        else if(averageConfidence > (enemyConfidence + enemyConfidence * 0.5))
+        {
+            PressAttack();
+        }
+        else
+        {
+            EngageCombat();
+        }
+    }
+
+    private void EngageCombat()
+    {
+        Debug.Log("Combat");
+    }
+
+    private void Retreat()
+    {
+        Debug.Log("Retreat");
+    }
+
+    private void PressAttack()
+    {
+        Debug.Log("Advantage");
+    }
+
+    private void CalculateCombatDirection()
+    {
+        List<Vector3> positions = new List<Vector3>();
+        foreach (Transform t in transform.parent.GetComponentsInChildren<Transform>())
+        {
+            positions.Add(t.position);
+        }
+        Vector3 averagePos = GetMeanVector(positions);
+        positions = new List<Vector3>();
+        foreach (Transform t in currentTarget.transform.parent.GetComponentsInChildren<Transform>())
+        {
+            positions.Add(t.position);
+        }
+        Vector3 averageEnemyPos = GetMeanVector(positions);
+        forwardLine.combatDir = averagePos - averageEnemyPos;
+        Debug.DrawLine(averagePos, averageEnemyPos);
     }
 
     private void SetLeader(int unitNum)
@@ -214,7 +294,7 @@ public class Unit : MonoBehaviour
             GameObject pos = new GameObject();
             pos.transform.parent = transform;
             pos.transform.localPosition = Vector3.zero;
-            pos.transform.Translate(new Vector3(-i, 0.0f, -(Mathf.Pow(-1.0f, i))));
+            pos.transform.Translate(new Vector3(-i - 0.5f, 0.0f, -(Mathf.Pow(-1.0f, i)) - 0.5f));
             pos.name = "Tracking Location: " + (i + 1);
         }
     }
@@ -303,5 +383,26 @@ public class Unit : MonoBehaviour
         {
             agent.destination = destination;
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        // Green
+        Gizmos.color = new Color(0.0f, 1.0f, 0.0f);
+        if(forwardLine.neutralArea != null)
+            DrawRect(forwardLine.neutralArea);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        // Orange
+        Gizmos.color = new Color(1.0f, 0.5f, 0.0f);
+        if(forwardLine.neutralArea != null)
+            DrawRect(forwardLine.neutralArea);
+    }
+
+    void DrawRect(Rect rect)
+    {
+        Gizmos.DrawWireCube(new Vector3(rect.center.x, 0.01f, rect.center.y), new Vector3(rect.size.x, 0.01f, rect.size.y));
     }
 }
