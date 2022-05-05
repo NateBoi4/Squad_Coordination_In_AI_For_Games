@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public struct squad
@@ -27,6 +28,9 @@ public class UnitManager : MonoBehaviour
     public UnitType[] unitTypes;
     public string[] terrains;
 
+    public Light lightSource;
+    public float rotationSpeed = 5.0f;
+
     private void Start()
     {
         start = false;
@@ -42,6 +46,11 @@ public class UnitManager : MonoBehaviour
             }
             start = true;
         }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
+        lightSource.transform.Rotate(Vector3.up * (rotationSpeed * Time.deltaTime));
     }
 
     public void SpawnSquads()

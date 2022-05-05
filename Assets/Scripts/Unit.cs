@@ -129,15 +129,18 @@ public class Unit : MonoBehaviour
         {
             Die();
         }
-        if (leader && currentTarget == null)
+        if (engaged)
         {
-            RemoveLeader(this.gameObject);
+            if (leader && currentTarget == null)
+            {
+                RemoveLeader(this.gameObject);
+            }
+            else if (!leader && leadUnit == null || !leader && dest == null)
+            {
+                engaged = false;
+                moving = false;
+            }
         }
-        //else if (!leader && leadUnit == null || !leader && dest == null)
-        //{
-        //    engaged = false;
-        //    moving = false;
-        //}
         Transform newTerrian = CheckTerrain();
         if (newTerrian != currentTerrain)
         {
@@ -264,7 +267,7 @@ public class Unit : MonoBehaviour
                     if (_unit.GetTeam() == team)
                     {
                         _unit.dest = lead.transform.GetChild(currUnit).transform;
-                        _unit.SetDestination(_unit.dest.position);
+                        _unit.SetTargetDestination(_unit.dest.position);
                         currUnit++;
                     }
                 }
@@ -323,14 +326,20 @@ public class Unit : MonoBehaviour
     {
         //Debug.Log("Retreat");
         Vector3 retreatDest = transform.position - new Vector3(1, 0, 1);
-        SetDestination(retreatDest);
+        if (gameObject)
+        {
+            SetTargetDestination(retreatDest);
+        }
         EngageCombat();
     }
 
     private void PressAttack()
     {
         //Debug.Log("Advantage");
-        SetDestination(currentTarget.transform.position);
+        if (gameObject)
+        {
+            SetTargetDestination(currentTarget.transform.position);
+        }
         EngageCombat();
     }
 
@@ -396,8 +405,11 @@ public class Unit : MonoBehaviour
         moving = false;
         for (int i = 0; i < (unitCount - 1); ++i)
         {
-            if(transform.GetChild(i).gameObject)
-                Destroy(transform.GetChild(i).gameObject);
+            if (i < transform.childCount)
+            {
+                if (transform.GetChild(i).gameObject)
+                    Destroy(transform.GetChild(i).gameObject);
+            }
         }
         foreach (GameObject unit in GameObject.FindGameObjectsWithTag("Unit"))
         {
@@ -475,8 +487,8 @@ public class Unit : MonoBehaviour
         while (!currentTarget)
         {
             Vector3 newPos = RandomNavSphere(transform.position, radius, -1);
-            SetDestination(newPos);
-            yield return new WaitForSeconds(3.0f);
+            SetTargetDestination(newPos);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
@@ -493,7 +505,7 @@ public class Unit : MonoBehaviour
         return navHit.position;
     }
 
-    private void SetDestination(Vector3 destination)
+    private void SetTargetDestination(Vector3 destination)
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
 

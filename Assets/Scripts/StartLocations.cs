@@ -31,9 +31,9 @@ public class StartLocations : MonoBehaviour
     {
         int index = dropdown.value;
 
-        GameObject terrain = GameObject.FindGameObjectWithTag(locations[index]);
+        string text = locations[index].Trim(new char[] {' ', '-', '+'});
 
-        //Debug.Log(terrain.name);
+        GameObject terrain = GameObject.FindGameObjectWithTag(text);
 
         manager.GetComponent<UnitManager>().unitLocations[squad] = terrain.transform;
     }

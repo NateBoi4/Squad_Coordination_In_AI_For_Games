@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3910,15 +3910,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 3
   manager: {fileID: 1893108391}
 --- !u!114 &835358075
@@ -4586,15 +4586,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 2
   manager: {fileID: 1893108391}
 --- !u!114 &987770670
@@ -4992,15 +4992,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 0
   manager: {fileID: 1893108391}
 --- !u!1 &1055072475
@@ -5392,15 +5392,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 1
   manager: {fileID: 1893108391}
 --- !u!114 &1142174370
@@ -5579,15 +5579,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 5
   manager: {fileID: 1893108391}
 --- !u!114 &1155446103
@@ -9089,15 +9089,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locations:
-  - Tundra
-  - City
-  - Desert
-  - Forest
-  - Swamp
-  - Canyon
-  - Beach
-  - Lake
-  - Hills
+  - Tundra -
+  - City +
+  - Desert -
+  - Forest +
+  - Swamp -
+  - Canyon +
+  - Beach +
+  - Lake -
+  - Hills +
   squad: 4
   manager: {fileID: 1893108391}
 --- !u!114 &1820448473
@@ -9344,6 +9344,8 @@ MonoBehaviour:
   - Beach
   - Lake
   - Hills
+  lightSource: {fileID: 705507994}
+  rotationSpeed: 5
 --- !u!4 &1893108393
 Transform:
   m_ObjectHideFlags: 0
